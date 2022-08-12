@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>折叠栏</title>
+</head>
+<body>
+  bug: 下拉 展示溢出
+    <div class="sdmenu"> 
+        <div>
+          <span class="menuSpan">在线工具</span>
+          <a href="#">图像优化</a></a>
+          <a href="#">收藏夹图标生成器</a>
+          <a href="#">邮件</a>
+          <a href="#">梯度图像</a>
+        </div>
+        <div class="collapsed abc">
+          <span class="menuSpan">支持我们</span>
+          <a href="#">图像优化</a></a>
+          <a href="#">收藏夹图标生成器</a>
+          <a href="#">邮件</a>
+          <a href="#">梯度图像</a>
+        </div>
+        <div class="collapsed">
+          <span class="menuSpan">推荐我们</span>
+          <a href="#">图像优化</a></a>
+          <a href="#">收藏夹图标生成器</a>
+          <a href="#">邮件</a>
+          <a href="#">梯度图像</a>
+        </div>
+        <div class="collapsed">
+          <span class="menuSpan ">测试</span>
+          <a href="#">图像优化</a></a>
+          <a href="#">收藏夹图标生成器</a>
+          <a href="#">邮件</a>
+          <a href="#">梯度图像</a>
+        </div>
+    </div>
+
+    <input type="color">
+
+    <style> 
+      .collapsed {
+        height: 40.8px;
+        overflow: hidden;
+      }
+
+     a {
+      height: 40px;
+      line-height: 40px;
+      color: #458794;
+       padding:0  8px;
+       text-decoration: none;
+       border-bottom: 1px solid gray;
+    }
+      .sdmenu{
+        width: 180px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+       
+        background-color:lightgrey;
+      }
+      .sdmenu div{
+        display: flex;
+        flex-direction: column;
+       
+        /* background-color: pink; */
+  
+      }
+      .menuSpan::before {
+        content: '';
+        position: relative;
+        top: 5px;
+        
+        font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+        line-height: 0;
+        margin-right: 5px;
+        border: 6px solid transparent;
+        border-top-color: #fff ;
+        
+      }
+      
+      .menuSpan{
+         display: flex;
+        font-weight: 700;
+        padding:10px;
+        color: #fff;
+        background-color: rgb(116, 113, 113);
+        /* background-color: #4A4C49; */
+        border-radius: 5px 5px 0 0 ;
+      }
+    </style>
+
+   <script>
+    let spans = document.querySelectorAll('.menuSpan')
+    //默认打开 第一个,存储打开的菜单
+    let openDiv = spans[0].parentNode
+  
+    
+       for (let i =0;i < spans.length ; i++){
+        spans[i].onclick = function() {
+            let parentDiv =  this.parentNode;
+            let begin = parentDiv.offsetHeight 
+           
+            //2.classList 获取所有元素的所有类名,使用.classList.add()   .remove  .toggle .replace  四个方法
+          
+            parentDiv.classList.toggle('collapsed') 
+            
+            
+            
+         //当前打开菜单 与上次打开不同, 且className里  不包含 collapsed  
+            if(openDiv != parentDiv && !openDiv.classList.contains('collapsed')){
+                openDiv.classList.toggle('collapsed') 
+                console.log(openDiv);
+              }
+           
+             openDiv = parentDiv
+             
+            let end = parentDiv.offsetHeight
+
+           
+            parentDiv.style.height = begin + "px"
+            
+            move(parentDiv,'height',end,20,function(){
+              parentDiv.style.height = ''
+            })
+
+
+         
+          // classValue = parentDiv.getAttribute('class')
+          // //1.getAttribute() 获取属性, setAttribute修改/删除属性   replace替换    
+          //   if(parentDiv.getAttribute('class')){
+          //     if(parentDiv.getAttribute('class').indexOf('collapsed') !== -1){
+          //        newClass = classValue.replace('collapsed','')
+          //        parentDiv.setAttribute("class", newClass)
+              
+          //       //打开时,关闭前一个 并存储当前菜单元素
+          //       if( openDiv != parentDiv ){
+          //         openDiv.setAttribute("class",'collapsed')
+          //       }
+          //       //更新打开的span
+          //       openDiv = parentDiv  
+                 
+
+          //     } else {
+          //       newClass = 'collapsed' + classValue
+          //       parentDiv.setAttribute("class", newClass)
+
+          //     }
+          //   }else{
+          //       //没有类名
+          //       newClass = 'collapsed'
+          //      parentDiv.setAttribute("class", newClass)   
+          //   }
+
+         
+       }
+
+    }
+
+
+
+//对象,属性(left ,top with ,height),target(目标数值),speed,回调
+function move(obj,attr,target,speed,callback) {
+   //关闭上一个定时器
+   clearInterval(obj.timer)
+  //元素当前距离父元素左边距离  let current = obj.offsetLeft   动态获取,对象的某个属性
+  // let current = obj.offsetLeft
+  let current = parseInt(getStyle(obj,attr)) 
+     //用户传入一个正的数值,内部根据当前位置,判断应该+或-
+    //如果当前距离   >  目标距离   移动speed 取反,  例子:800 向 0移动    小于时,0 向 800 speed 为正
+   if(current > target){
+    speed = - speed;
+   }
+   //通过定时器做动画效果  : 定位的 Left 改变
+   obj.timer = setInterval(() => {
+      // let oldValue = obj.offsetLeft
+      //  这个方法是因为 getStyle 自己封装方法,获取的带有PX ,需要parseInt转换为数字才能计算
+      let oldValue = parseInt(getStyle(obj,attr)) 
+
+      //旧值 加上 speed 为每次移动的距离   即为当前最新值,动态赋予left即可移动
+      let newValue = oldValue + speed;
+      //向左移动 newValue 比目标 小 ?
+      //向右移动,判断是否比target大  
+      //newValue 小于 目标值 ,则让new 等于目标的位置 ,防止超过/不停止
+      if((speed < 0 && newValue < target) || (speed >0 && newValue > target)){
+        newValue = target
+      }
+
+      obj.style[attr] = newValue + "px";
+
+      //到达目标清除计时器,停止动画
+      if(newValue == target) {
+        clearInterval(obj.timer);
+        callback && callback();
+
+      } 
+   }, 30);
+
+
+  
+ }
+ 
+ //获取任意css 样式
+function getStyle(obj,name) {
+
+// 获取样式   
+if(window.getComputedStyle){
+  return getComputedStyle(obj,null)[name];
+}else{
+  // ie8
+  return obj.currentStyle[name];
+}
+}
+
+   </script>
+        
+
+</html>

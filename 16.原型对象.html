@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input" oninput="textCount()">
+    <span id="span"></span>
+    <button id="btn">测试</button>
+</body>
+
+<style>
+  *{
+    margin:0;
+    padding: 0;
+
+
+  }
+
+  #input{
+    width: 200px;
+    background-color: lightblue;
+  }
+
+  #btn {
+    width: 50px;
+  }
+
+</style>
+
+<script>
+      let input = document.querySelector("#input");
+      let span = document.querySelector("#span");
+      let btn = document.querySelector("#btn");
+
+
+     
+      btn.onclick =  textCount
+      
+      function textCount(){
+
+        count = localStorage.getItem('count')
+        if(count){
+          count ++ 
+          localStorage.setItem('count',count)
+        }else{
+          let count = 0
+          localStorage.setItem('count',count)
+        }
+
+        
+        span.innerHTML = localStorage.getItem('count')
+      }
+
+      function Person(name,age,gender) {
+        this.name = name;
+        this.age = age;
+        this.gender =gender
+      }
+
+      let tian =new Person('tian',28,3)
+
+      console.log(Object,"object");
+      console.log(Person,'构造函数');
+      console.log( tian,'实例对象');
+
+      Person.prototype.a = 1;
+      console.log(Object.prototype ,'object原型');
+      console.log(Person.prototype,'构造函数原型');  
+      console.log(tian.prototype,'实例对象原型');//null 
+
+
+      
+
+      
+
+      
+
+</script>
+</html>

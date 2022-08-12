@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>轮播图</title>
+</head>
+<body>  
+    <div id="outer">
+      <ul id="imgList"> 
+        <li>
+          <img src="./img/180620_14e89hj7hf893j72l22fh4f9gl85c_640x960.jpg" alt="">
+        </li>
+        <li>
+          <img src="./img/181007_8678dj3i2ab7fi9l5ghgk30ij0180_640x854.jpg" alt="">
+        </li>
+        <li>
+          <img src="./img/180927_452jk166fbeakel19d24j8hfjff30_640x960.jpg" alt="">
+        </li>
+        <li>
+          <img src="./img/180620_19fk93bjc8adfg9h7ak978409kei9_640x960.jpg" alt="">
+        </li>
+        <li>
+          <img src="./img/180927_6h4f874g0dk836alckd44bg1b8dkf_750x749.jpg" alt="">
+        </li>
+        <li>
+          <img src="./img/180927_1l1h3jg6ke05i527eea6kkd7gj1lc_800x800.jpg" alt="">
+        </li>
+        <li>
+          <img src="./img/180927_0afjf8g6jda6gg9il8k1blgj417h7_800x800.jpg" alt="">
+        </li>
+        <li>
+          <img src="./img/180620_14e89hj7hf893j72l22fh4f9gl85c_640x960.jpg" alt="">
+        </li>
+      </ul>
+
+      <div id="navDiv">
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+      </div>
+    </div>
+ 
+  
+</body>
+
+
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  #outer{
+    position: relative;
+    height: 600px;
+    width: 620px;
+    margin:50px auto ;
+    
+    overflow: hidden;                          
+    background-color: pink;
+    
+  }
+
+  #imgList{
+    position: absolute;
+    left:0;
+    /* background-color: lightgreen; */
+    list-style: none;
+    display: flex;
+    
+  }
+
+
+  #imgList li {
+    margin:0 10px;
+  } 
+  #imgList img {
+    height: 600px;
+    width: 600px;
+  }
+
+ #navDiv{
+    position: absolute;
+    bottom: 15px;
+    left:50% ;
+    transform: translate(-50%);
+
+    display: flex;
+    /* background: #fff; */
+
+ }
+
+ #navDiv a {
+  /* display: block; */
+  background-color: rgb(232, 20, 126);
+  margin: 0 10px;
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%  ;
+  opacity: 0.5;
+  /* 兼容 iE8 */
+  filter: alpha(opacity = 30);
+ }
+
+ #navDiv a:hover{
+  background-color: black;
+ }
+
+</style>
+
+
+<script>
+ window.onload = function() {
+ 
+  
+  let imgList = document.getElementById("imgList");
+  let imgArr = document.getElementsByTagName("img");
+  // 1.设置 ul 长度,float 时让 长度自动变化,flex布局不用
+  // imgList.style.width = 600 * imgArr.length + "px";
+
+  let navDiv = document.getElementById("navId");
+  let outer = document.getElementById("outer");
+  // 2.底部导航栏, 定位距离左边距离:   外部容器宽度 - 导航栏宽度 再/2 
+  // navDiv.style.left =( outer.offsetWidth - navDiv.offsetWidth)/2 +'px';
+
+
+  //3.设置导航栏默认 已选  
+  let timer = null;//用于点击时获取  清除定时器名
+  let index = 0 ;
+  let allA = document.querySelectorAll('a');
+  allA[index].style.backgroundColor = "black"
+
+  //4.绑定点击切换图片
+  for(let i = 0 ; i <allA.length; i++){
+      allA[i].onclick= function(){
+        clearInterval(timer)
+        index = i
+        //导航切换
+        setA(i)
+          //图片切换 ul 往左移动
+          // imgList.style.left = - i * 620 +'px'
+          
+          move(imgList,"left",-i * 620,20,function(){
+            autoPlay()
+          })
+      }
+
+  }
+
+  //5.切换动画
+  autoPlay();
+  //自动轮播
+ 
+  function autoPlay() {
+  timer =  setInterval(function() {
+    index++;//默认导航点导航
+    index %=  imgArr.length; 
+    // i++ 0 1 2 3 4 5 6 7 8  当为8 除自身 余数为 0,前面余数为自身  
+    //切图
+    
+    move(imgList,"left", - index * 620,20,function(){
+      setA(index)
+    })
+
+  },3000)
+}
+
+
+//导航点  current 回调
+function setA(i) {
+  //判断是否在最后一张图
+  if (index >= imgArr.length -1){
+    i  = 0;
+    //重置第一张图
+    imgList.style.left = 0;
+  }
+
+  for( let j = 0;j < allA.length; j++){
+            allA[j].style.backgroundColor = ""
+          }
+          allA[i].style.backgroundColor = "black"
+}
+    
+  
+}
+      
+ 
+ //对象,属性(left ,top with ,height),target(目标数值),speed,回调
+ function move(obj,attr,target,speed,callback) {
+   //关闭上一个定时器
+   clearInterval(obj.timer)
+  //元素当前距离父元素左边距离  let current = obj.offsetLeft
+  let current = obj.offsetLeft
+     //用户传入一个正的数值,内部根据当前位置,判断应该+或-
+    //如果当前距离   >  目标距离   移动speed 取反,  例子:800 向 0移动    小于时,0 向 800 speed 为正
+   if(current > target){
+    speed = - speed;
+   }
+   //通过定时器做动画效果  : 定位的 Left 改变
+   obj.timer = setInterval(() => {
+      // let oldValue = obj.offsetLeft
+      //  这个方法是因为 getStyle 自己封装方法,获取的带有PX ,需要parseInt转换为数字才能计算
+      let oldValue = parseInt(getStyle(obj,attr)) 
+
+      //旧值 加上 speed 为每次移动的距离   即为当前最新值,动态赋予left即可移动
+      let newValue = oldValue + speed;
+      //向左移动 newValue 比目标 小 ?
+      //向右移动,判断是否比target大  
+      //newValue 小于 目标值 ,则让new 等于目标的位置 ,防止超过/不停止
+      if((speed < 0 && newValue < target) || (speed >0 && newValue > target)){
+        newValue = target
+      }
+
+      obj.style[attr] = newValue + "px";
+
+      //到达目标清除计时器,停止动画
+      if(newValue == target) {
+        clearInterval(obj.timer);
+        callback && callback();
+
+      } 
+   }, 30);
+
+
+  
+ }
+ 
+
+ //获取任意css 样式
+function getStyle(obj,name) {
+
+  // 获取样式   
+  if(window.getComputedStyle){
+    return getComputedStyle(obj,null)[name];
+  }else{
+    // ie8
+    return obj.currentStyle[name];
+  }
+}
+
+
+</script>
+</html>

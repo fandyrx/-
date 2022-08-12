@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>利用开发者调试工具查看</title>
+</head>
+<body>
+  1.课堂定义
+      产生条件:1.1函数嵌套
+              1.2 内部函数引用外部的变量/函数方法 
+  2.定义的时候就产生了闭包  ,而不是调用的时候
+  3. 什么是闭包 
+        个人理解:闭包是一种现象,函数嵌套  内部函数存在引用外部函数作用域的变量或者函数时,便产生了
+              能在函数外部访问到函数作用域内的变量, (私有变量 ),ES5用来解决变量提升的问题
+             
+             
+              闭包的另一个用途是使已经运行结束的函数上下文中的变量对象继续留在内存中，因为
+              闭包函数保留了这个变量对象的引用，所以这个变量对象不会被回收。
+  4.闭包在哪 调用外部值的  内部函数 
+  5.闭包消失  对象 = null  不被引用的时候就消失了 
+  6.闭包的存在,看内存空间有无被引用,指向   变成垃圾对象就会被浏览器垃圾回收 GC了  
+   栈内存  保存了一个值,里面含一个指向地址   指向=> 堆内存   对象 (内含闭包)
+  
+</body>
+<script>
+  function fn1 () {
+    let a = 2
+    console.log('我是fn1 ');
+     return  function fn2( ){
+      console.log(a++,'fn2')
+    
+  }
+   
+  }
+
+  // let a = fn1();
+  // a()
+  // a()
+  // a()
+  
+
+  
+function  fun (n,o) {
+ console.log(o);
+ return {
+  fun:function(m){
+    return fun(m,n);
+  }
+ }
+}
+
+var a = fun(0);  a.fun(1); a.fun(2);  a.fun(3);//undefined;0;0;0
+console.log('----');
+var b = fun(0).fun(1).fun(2).fun(3);//undefined;0;1;2
+console.log('----');
+var c = fun(0).fun(1); c.fun(2);  c.fun(3);//undefined;0; 1;1
+
+
+
+
+</script>
+</html>

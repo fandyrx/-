@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<header>
+			<section>
+				<form action="javascript:;" id="form"></form>
+				<label for="title" class="logo">ToDoList</label>
+				<input type="text" id="title" name="title" placeholder="添加ToDo" required="required" autocomplete="off" />
+			</section>
+		</header>
+
+		<section>
+			<!-- todo -->
+			<input type="text" name="filter" id="filter" placeholder="筛选任务" />
+			<h2>
+				正在进行
+				<span id="todocount">0</span>
+			</h2>
+			<ol id="todolist" class="demo-box"></ol>
+			<a href="javascript:void(0);" class="bottomBtn">清除所有进行</a>
+			<h2>已经完成 <span id="donecount">0</span></h2>
+
+			<ul id="donelist">
+				<li>
+					<input type="checkbox" />
+					<p>321</p>
+					<a href="#"></a>
+				</li>
+			</ul>
+		</section>
+
+		<script>
+			const titleInput = document.querySelector("#title");
+			const titleForm = document.querySelector("#form");
+			const filterInput = document.querySelector("#filter");
+			const doneBtn = document.querySelector(".remove");
+			const bottomBtn = document.querySelector(".bottomBtn");
+			const todoList = document.querySelector("#todolist");
+
+			
+     
+      let tasks = [];
+     
+      localStorage.getItem('todoList')? tasks.push(...JSON.parse(localStorage.getItem('todoList'))) :''
+			startApp();
+     
+     
+      
+			function startApp() {
+        
+
+				show(tasks);
+				statListen();
+
+			}
+
+			function show(tasks) {
+				todoList.innerHTML = "";
+				for (const task of tasks) {
+					//1.生成 元素
+					let li = document.createElement("li");
+
+					li.innerHTML = ` <input type="checkbox">
+                     <p> ${task} </p>
+                     <a href="javascript:void(0);"  class="remove"></a>`;
+					//2.插入
+					todoList.append(li);
+					//3.清空输入框
+					titleInput.value = "";
+				}
+
+        //存入本地存储
+        JSON.stringify(tasks)
+        localStorage.setItem('todoList', JSON.stringify(tasks))
+			}
+
+			function statListen() {
+				//1.from 表单提交  需要包裹 写一个submit 按钮
+				// titleForm.addEventListener('submit',addTask)
+				//   回车添加
+				titleInput.addEventListener("keydown", addTask);
+				//2.完成任务父节点绑定利用冒泡  --鼠标点击
+				todoList.addEventListener("click", toDone);
+
+				//3.清除所有正在 任务 --鼠标点击
+				bottomBtn.addEventListener("click", clearAllTask);
+				//4.筛选任务 --按键松开
+				filterInput.addEventListener("keyup", filterTask);
+			}
+
+			// 事件回调
+			function addTask(e) {
+				const taskInput = titleInput.value.trim();
+				if (e.keyCode === 13 ) {
+           taskInput !== '' ?  tasks.unshift(taskInput) :alert('请输入内容')
+           show(tasks)
+           
+				}
+			}
+
+			function toDone(e) {
+				//删除,后续改动成添加
+				if (e.target.classList.contains("remove")) {
+					// e.target.parentNode.remove();
+          let index = tasks.indexOf ( e.target.parentNode.textContent.trim())
+            tasks.splice(index,1)
+            show(tasks)
+           
+            //删除todolist一个值 ,筛选的数组再覆盖存入即可 切记JSON格式
+          
+            localStorage.setItem('todoList', JSON.stringify(tasks))
+				}
+			}
+
+			function clearAllTask() { 
+				// todoList.innerHTML = "";  dom操作
+        // Model 操作
+        tasks= []
+        show(tasks)
+        localStorage.removeItem('todoList')
+
+			}
+
+			function filterTask(e) {
+				if (e.keyCode === 13) {
+          let inputText = e.target.value.trim().toLowerCase();
+          let filteredTasks = tasks.filter(task =>   task.toLowerCase().trim().includes(inputText))
+          show(filteredTasks)
+					// let inputText = e.target.value.trim().toLowerCase();
+
+					// let childNodes = [...todoList.children];
+
+					// childNodes.forEach((item) => {
+					// 	taskLiText = item.textContent.trim().toLowerCase();
+					// 	if (taskLiText.indexOf(inputText) !== -1) {
+					// 		item.style.display = "block";
+					// 	} else {
+					// 		item.style.display = "none";
+					// 	}
+					// });
+				}
+			}
+		</script>
+	</body>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background: #cdcdcd;
+		}
+		section {
+			width: 600px;
+			margin: 0 auto;
+		}
+
+		header {
+			height: 50px;
+			background: #333;
+			color: #fff;
+		}
+		header .logo {
+			float: left;
+			width: 100px;
+			line-height: 50px;
+			color: #ddd;
+			font-size: 24px;
+			cursor: pointer;
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		}
+
+		header input {
+			float: right;
+			width: 60%;
+			height: 24px;
+			margin-top: 12px;
+			text-indent: 10px;
+			border-radius: 5px;
+			box-shadow: 0 1px 0 rgb(255 255 255 / 24%), 0 1px 6px rgb(0 0 0 / 45%) inset;
+			border: none;
+
+			line-height: 30px;
+			padding: 1px 2px;
+		}
+
+		ol,
+		ul {
+			padding: 0;
+			list-style: none;
+			cursor: move;
+		}
+		li {
+			height: 32px;
+			line-height: 32px;
+			background: #fff;
+			position: relative;
+			margin-bottom: 10px;
+			padding: 0 45px;
+			border-radius: 3px;
+			border-left: 5px solid #629a9c;
+			box-shadow: 0 1px 2px rgb(0 0 0 / 7%);
+		}
+		#filter {
+			height: 32px;
+			line-height: 32px;
+			background: #fff;
+			width: 600px;
+
+			border-radius: 3px;
+			border-left: 5px solid #629a9c;
+			box-shadow: 0 1px 2px rgb(0 0 0 / 7%);
+		}
+
+		li input {
+			position: absolute;
+			top: 2px;
+			left: 10px;
+			width: 22px;
+			height: 22px;
+			cursor: pointer;
+		}
+		li p {
+			display: block;
+			margin-block-start: 1em;
+			margin-block-end: 1em;
+			margin-inline-start: 0px;
+			margin-inline-end: 0px;
+		}
+
+		li a {
+			position: absolute;
+			top: 2px;
+			right: 5px;
+			display: inline-block;
+			width: 14px;
+			height: 12px;
+			border-radius: 14px;
+			border: 6px double #fff;
+
+			background: #ccc;
+			line-height: 14px;
+			text-align: center;
+			color: #fff;
+			font-weight: bold;
+			font-size: 14px;
+			cursor: pointer;
+		}
+
+		.bottomBtn {
+			display: block;
+			height: 20px;
+			width: 100px;
+			padding: 10px;
+			background-color: gold;
+			text-decoration: none;
+			line-height: 20px;
+		}
+	</style>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定位盒子</title>
+</head>
+<body>
+  <!-- <div class="box1">我是盒子1</div>
+  
+  <div class="box2 clearfix ">
+    
+    <div class="left">我是盒子左边</div>
+    <div class="right">我是盒字右边</div>
+  </div> -->
+<div class="header">header</div>
+<div class="outer ">
+  <div class="center">center</div>
+  <div class="left1">left</div>
+  <div class="right1 ">right</div>
+</div>
+<div class="footer ">footer</div>
+
+<div class="header">header</div>
+<div class="outer1 ">
+    <div class="align"></div>
+    <div class="align2"></div>
+</div>
+<div class="footer ">footer</div>
+
+
+<div class="pin1">一些文本内容一些文本内容一些文本内容一些文本内容一些文本内容一些文本内容一些文本内容一些文本内容一些文本内容一些文本内容一些文本内容</div>
+<div class="pin2">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
+<div class="pin3">112</div>
+
+
+
+ 
+ 
+
+  <!-- <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .clearfix::before,  
+    .clearfix::after {
+      content: '伪元素,父没有设置高度 ,子元素浮动时会高度塌陷 before 展示table解决外边距塌陷(父子) after用来撑高父元素';
+      display: table;
+    }
+    .clearfix::after{
+      clear: both;
+    }
+    body{
+    
+      background-color: lightcoral;
+    }
+    .box1 {
+      width: 200px;
+      height: 200px;
+      margin-bottom:100px ;
+      /* 不生效外边距塌陷 */
+      background-color:pink;
+    }
+
+    .box2 {
+      width: 1000px;
+      margin-top: 100px;
+      background: skyblue;
+      /* 1.兄弟重叠方法 */
+     display: inline-block;
+     
+     /* float:left; */
+
+     /* position: fixed; */
+     /* position: absolute; */
+    }
+    .box3 {
+     float:right;
+      width: 200px;
+      height: 200px;
+      background-color: yellow;
+    }
+  </style> -->
+
+
+  <style>
+     body{
+    
+    background-color: lightcoral;
+  }
+  .box1 {
+    width: 200px;
+    height: 200px;
+    margin-bottom:100px ;
+    /* 不生效外边距塌陷 */
+    background-color:pink;
+  }
+
+  .box2 {
+    position: relative;
+    height: 500px;
+    margin-top: 100px;
+    background: skyblue;
+    display: flex;
+    margin-bottom: 100px;
+   
+  }
+  .left{
+  
+    top: 0;
+    left: 0;
+  
+    width: 200px;
+    height: 100%;
+    /* float: left; */
+    background-color: yellow;
+  }
+  .right {
+    /* margin-left:200px;
+    width: auto; */
+    /* 2.overflow 触发BFC */
+    /* height: 100%;
+    overflow: hidden; */
+
+    /* 3.flex */
+    /* flex: 1; */
+    /* 4.定位 */
+    position: absolute;
+    top: 0;
+    left: 200px;
+   
+    /* bottom: 0;
+    right: 0; */
+    height: 100%;
+    width: 100%;
+    background-color: lightgreen;
+ 
+  }
+
+ 
+
+  /* 3栏 */
+  .header, .footer{
+    background-color: pink;
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    clear: both;
+  }
+ 
+  .outer {
+   
+    height: 100px;
+    padding-left: 100px;
+    padding-right: 200px;
+    background-color:yellow;
+  }
+  .left1 {
+    position: relative;
+    left: -100px;
+    /* center 浮动了,所以left 也浮动脱标,往左移动自身的外边距长度 */
+    float: left;
+    margin-left: -100%;
+    width: 100px;
+    height: 100px;
+    background-color: tomato;
+  }
+
+  .right1{
+      position: relative;
+      left: 200px;
+      float: right;
+      margin-left: -200px;
+      width: 200px;
+      height: 100px;
+      background-color: gold;
+  }
+
+  .center{
+    float: left;
+    width: 100%;
+    height: 100px;
+    background-color: lightgreen;
+
+  }
+  
+  /* 居中 */
+  .outer1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 父元素设置flex 并调整子元素位置 ,水平轴,垂直纵向轴(默认), flex-direction改变则主轴也改变 */
+    height: 100px;
+    background-color:yellow;
+  }
+  .align {
+    background-color: #fff;
+    height: 50px;
+    width: 50px;
+
+   
+  }
+  .align2 {
+    background-color: rgb(90, 55, 55);
+    height: 50px;
+    width: 50px;  
+    order:-1;
+    /* 用来决定flex 布局中排列顺序,默认0 */
+  }
+
+/* 1居中,2,3设置inline-block 触发BFC 或者浮动成一行, margin-left 居中,再transform移动 */
+  .pin1{
+    background-color: gold;
+    height: 100px;
+    width: 100px;
+    margin:  0 auto;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+
+
+  
+  }
+  .pin2{
+    height: 100px;
+    width: 100px;
+    background-color: silver;
+    float: left;
+    margin-left: 50%;
+    transform: translate(-100%);
+
+    word-wrap: break-word;
+
+    
+  }
+  .pin3 {
+    height: 100px;
+    width: 100px;
+    background-color: coral;
+    float:left;
+    transform: translate(-100%);
+    -webkit-text-size-adjust:none;
+    -webkit-transform:scale(2);
+    
+  }
+
+  </style>
+</body>
+</html>

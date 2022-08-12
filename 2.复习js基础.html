@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>黑马JS基础作业</title>
+</head>
+<body>
+  <!-- 翻看了下看看自己能不能脱离视频把作业做出来 -->
+  <script>
+    // 1. prompt 用户输入的是字符串   case 内用必须双引号包裹，转成字符串，单引号也不行 。得Break 退出循环，否则一直执行
+    //#region 
+    // let time = prompt('输入整点时间，12，18，23')
+    // switch(time){
+    //   case "12": 
+    //     alert('中午好');
+    //   break;
+    //   case "18" :
+    //     alert('傍晚好');
+    //     break;
+    //   case "23" :
+    //     alert('深夜好') 
+    //     break;
+    //   default : 
+    //     alert('请填写要求数字')
+    // }
+    //#endregion
+
+
+    // 2. 数字转换
+    //#region 
+    // let num1 = parseInt(prompt('num1'));
+    // let num2 = parseInt(prompt('num2'));
+     
+    // if(num1 > num2){
+    //   alert(num1)
+    // }else{
+    //   alert(num2)
+    // }
+    //#endregion
+
+    //3.打印星星,变量再循环外声明，否则一直重复声明。 直接打印会叠在一起，所以用字符串
+    // let str = ''
+    // for(let i = 0;i < 5 ;i++){
+    
+    //  str = str + '⭐'
+     
+    // }
+
+// ----------------------------------- 5行 5个
+    // let str = '';
+    // for(let i = 0;i < 5 ;i++){  //外循环，  五行
+    //   for(let j = 0 ;j < 5;j++){ //内循环， 每行 星星个数
+    //     str = str + '⭐' 
+    //   }
+    //   str = str + '\n'   //换行
+    // }
+    // ---------------------------------倒三角  内循环结束一轮  再到 外循环 第二轮
+    // let str = '';
+    // for(let i = 0;i < 5 ;i++){  //外循环，  五行
+    //   for(let j = i ;j < 5;j++){ //内循环， 每行 星星个数
+    //     str = str + '⭐' 
+    //   }
+    //   str = str + '\n'   //换行
+    // }
+
+
+  // ------------------------------------正三角   思路：里面需要星星数，从1-5，刚好是当前 外循环进入的i 同等
+  let str = '';
+    for(let i = 0;i < 5 ;i++){  //外循环，  五行
+      for(let j = 0 ;j <= i;j++){ //内循环， 每行 星星个数i
+        str = str + '⭐' 
+      }
+      str = str + '\n'   //换行
+    }
+    console.log(str);
+  </script>
+
+</body>
+</html>

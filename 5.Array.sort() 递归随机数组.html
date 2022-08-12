@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>8.7</title>
+	</head>
+	<body>
+		<div class="before"></div>
+		<div class="block">123</div>
+		<div class="after">after</div>
+		<style>
+			.before{
+				background:red;
+				width: 200px;
+				height: 200px;
+			}
+			.after{
+				background-color: blue;
+				width: 200px;
+				height: 200px;
+			}
+		.block {
+			/* 不占位,不显示 */
+			/* display: none; */
+			/* 占位 不显示 */
+			/* visibility:hidden; */
+			/* opacity: 0; */
+			/* 移出可视区 */
+			/* position: absolute;
+			top: -300px; */
+			/* 有元素在上层时压住 */
+			/* z-index: - 5 ; */
+			
+			/* transform: scale(0,0); */
+			height: 300px;
+			width: 300px;
+			background-color: skyblue;
+		}
+		</style>
+		<script>
+
+      //改变原数组
+			// 数组方法 sort()   可以传入排序函数, a-b 代表数组任意数字
+			//  返回值 > 0    a 放在 b 后面
+			//  返回值 < 0    a  放在 b 前面
+			//  返回值 = 0   位置不变
+
+      //1.升序
+			function f(a, b) {
+				//排序函数
+				return a - b; //返回比较参数
+			}
+			var a = [3, 1, 2, 4, 5, 7, 6, 8, 0, 9]; //定义数组
+			a.sort(f); //根据数字大小由小到大进行排序
+			console.log(a, "a"); //返回数组[0,1,2,3,4,5,6,4,7,8,9]
+
+      //2.降序
+			function f1(a, b) {
+				//排序函数
+				return b - a; //返回比较参数
+			}
+
+			var arr = [3, 1, 2, 4, 5, 7, 6, 8, 0, 9]; //定义数组
+			arr.sort(f1); //根据数字大小由小到大进行排序
+			console.log(arr, "a1"); //返回数组[9,8,7,6,5,4,3,2,1,0]
+
+
+      //3.奇数偶数
+			function f3(a, b) {
+				//排序函数
+				var a = a % 2; //获取参数a的奇偶性
+				var b = b % 2; //获取参数b的奇偶性
+				if (a == 0) return 1; //如果参数a为偶数，则排在左边
+				if (b == 0) return -1; //如果参数b为偶数，则排在右边
+			}
+			var a3 = [3, 1, 2, 4, 5, 7, 6, 8, 0, 9]; //定义数组
+			a3.sort(f3); //根据数字大小由大到小进行排序
+			console.log(a3,"a3"); //返回数组[3,1,5,7,9,0,8,6,4,2]
+		</script>
+
+    <script>
+
+//                              ### 这一题是起源题
+// 描述：
+// 1. 这是一道大题目，把考点拆成了4个小项；需要侯选人用递归算法实现（限制15行代码以内实现；限制时间10分钟内完成）：
+// a) 生成一个长度为5的空数组arr。
+// b) 生成一个（2－32）之间的随机整数rand。
+// c) 把随机数rand插入到数组arr内，如果数组arr内已存在与rand相同的数字，则重新生成随机数rand并插入到arr内[需要使用递归实现，
+// 不能使用for/while等循环]
+
+       let randomArr = []
+      function getRandomNum (randomArr, length, max, min) {
+        const rand  = Math.floor(Math.random() * (max - min +1) +min )
+        // let randomArr = new Array(5)
+        //1.生成随机数,当前随机数不在数组内 则推入
+        // !randomArr.includes(rand) && randomArr.push(rand);
+        //2.数组 遍历,通过索引判断 当前随机数是否 与数组内元素 重合   ,索引返回-1 则代表没有这个元素,推入
+        let findIndex = randomArr.findIndex(item=> item === rand)
+        findIndex === -1 && randomArr.push(rand)
+        //3. 数组长度 是否等于 我需要的长度  , 符合则返回表达式一  否则 返回表达式二  
+        //表达式二 为再次调用本函数, 继续执行上方推入操作,直到满足length  返回表达式一
+        return randomArr.length === length ? randomArr : getRandomNum (randomArr, length, max, min)
+        
+      }
+      //调用,传入需求
+      getRandomNum (randomArr, 5, 32, 2)
+      console.log(randomArr,'randomArr');
+
+
+    </script>
+	</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>div移动</title>
+	</head>
+	<body>
+		移动下方方块 1.文档document.绑定键盘事件,获取keycode 2.获取div元素 定位, 根据 keycode 改变div 的距离窗口的定位距离
+   <h5>
+    注意点: 方向,速度分开控制,如果绑定到键盘按下一起控制,持续按首帧会卡顿一下
+    <p> 1.speed  direction 定义两个全局变量</p>
+    <p> 2.开启一个interval定时器,一直循环判断方向,(用户输入),一直移动,但初始值都为0</p>
+    <p> 3.速度(移动像素left)在键盘按下时赋予,键盘松开复位 0</p>
+    <p>4.bug: 同时Keydown 不能移动,Ctrl不能在移动中加速,不能斜方运动(添加判断?)</p>
+   </h5> 
+    <div class="move"></div>
+	</body>
+
+	<style>
+		.move {
+			position: absolute;
+			background-color: red;
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+
+	<script>
+		let div = document.querySelector(".move");
+
+		div.onclick = (e) => {
+			console.log(e.pageX, "page");
+			console.log(e.offsetX, "off");
+		};
+
+		window.onload = function () {
+      let speed = ''
+      let dir = 0
+       
+
+
+      let timer = setInterval(function () {
+				switch (dir) {
+					case 37:
+						div.style.left = div.offsetLeft - speed + "px";
+						break;
+					case 39:
+						div.style.left = div.offsetLeft + speed + "px";
+						break;
+					case 38:
+						div.style.top = div.offsetTop - speed + "px";
+						break;
+					case 40:
+						div.style.top = div.offsetTop + speed + "px";
+				}
+			}, 30);
+
+			document.onkeydown = function (event) {
+				event = event || window.event;
+
+				 speed = 10;
+			
+				if (event.ctrlKey) {
+					speed = 50;
+				}else{
+          speed = 10
+        }
+
+		  	dir = event.keyCode;
+
+			};
+      document.onkeyup = function (event){
+        dir = 0
+      }
+		};
+	</script>
+
+
+
+</html>
