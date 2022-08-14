@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动态组件is 的尝试应用</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+      
+     <comp></comp>
+     <hr>
+      <comp2></comp2>
+
+
+      <hr>
+      <xmp> 
+        component v-bind:is="currentTabComponent"></component>
+        component 动态组件, 根据is 指向组件名展示
+      </xmp>
+      <component v-bind:is="currentTabComponent"></component>
+    </div>
+</body>
+</html>
+
+<script>
+
+
+//组件1
+const comp = Vue.extend({
+  
+  name: 'comp',
+  template:`<div>
+                我是头部
+              <div>我是组件{{name}}</div>  
+            </div>`,
+  data(){
+      return {
+        name:"myname"
+      }
+  }
+})
+//组件2
+const comp2 = {
+  //简写
+  template:`<div>
+                我是头部
+              <div>我是二号{{name}}</div>  
+            </div>`,
+  data(){
+      return {
+        name:"test"
+      }
+  }
+}
+
+//vm 实例
+  let vm = new Vue({
+     el:'#root',
+    data(){
+      return{
+        a:1,
+        currentTabComponent:comp
+      }
+    },
+    components:{
+      comp,
+      comp2
+    },
+   
+  })
+
+  
+</script>

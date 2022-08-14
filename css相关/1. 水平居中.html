@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CSS实现水平垂直居中布局(内框不定高宽)</title>
+	</head>
+	<body>
+		<div class="demo1">
+			
+			<div class="child">2</div>
+	
+		</div>
+		
+		<div class="demo2">
+			
+			<div class="child">1</div>
+		
+		</div>
+	</body>
+</html>
+
+
+
+<style>
+  /* 1.父元素设置浮动   flex
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+     2. flex + margin
+     父元素display: flex;
+      子元素margin:auto;
+    
+    3.position:absolute + transform
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+
+    4.  利用 table 的单元格居中效果展示。与 flex 一样，需要写在父级元素上。
+    display: table-cell;
+
+    text-align: center;
+    vertical-align: middle;
+     子元素:display:inline-table;
+
+    5.子元素定位
+     position: absolute;
+     top: 0;
+     left:0;
+     bottom: 0;
+     right: 0;
+     margin:auto;
+      
+    */
+  .demo1,.demo2{
+    width: 200px;
+    height: 100px;
+    background-color: pink;
+    margin: 0 auto;
+   display: grid;
+    
+    
+  }
+
+  .child{
+   align-self: center;
+   justify-self: center;
+     width: 50px;
+    height: 50px; 
+    background-color: lightblue;
+     
+  }
+</style>

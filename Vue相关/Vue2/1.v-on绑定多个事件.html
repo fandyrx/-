@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+
+</head>
+<body>
+  <div class="box"> 盒子测试v-on 绑定多个事件 <hr></div>
+
+    1.正常绑定,一个事件,一个回调,不需要添加() 
+     <xmp><h1 v-on:click="changeSpan">模板</h1></xmp>
+    2. 不同事件,对应各自回调,对象方式写入
+    <xmp><h1 v-on="{click:dbClick,mousemove:MouseClick}">模板</h1></xmp>
+    3.同一事件,绑定多个回调,函数需要添加()  
+     <xmp><h1 v-on:click="changeSpan(),test()">模板</h1></xmp>
+  </div>
+
+  <div id="app"> vue的容器  VM实例对象el/$mount绑定后,新创建元素替换这里</div>
+  <hr>
+
+  <div id="root">
+   <h1 v-on:click="changeSpan(),test()">点击模板</h1>
+   <span>span:{{a}}</span>
+  </div>
+
+
+  <script>
+    let vm = new Vue ({
+      //el:'#app',
+      data() {
+        return{
+          a:1
+        }
+      },
+  
+      methods:{
+        changeSpan(){
+           this.a++
+            console.log('changeSpan');
+        },
+        test(){
+          console.log("test");
+        }
+      },
+    // 1. render:  function (createElement) {
+    //    return createElement('h1', "一些文字")
+    //   }
+    // 习惯的简写,  h = createElement   通常用于引入管理的 主组件APP, 通过render 函数渲染到页面
+    //  render :(h) => h('h1', "一些文字"),
+    
+    
+
+    }).$mount('#root')
+
+
+
+
+  </script>
+</body>
+</html>

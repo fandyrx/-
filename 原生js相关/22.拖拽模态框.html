@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="header">点击弹出登录框</div>
+
+
+  <div class="box">
+       <h1 class="title">登录</h1>
+      <span class="content">内容</span>
+  </div>
+
+
+  <div class="mask"></div>
+  
+
+</body>
+</html>
+
+
+<style> 
+*{
+  margin: 0;
+  padding: 0;
+}
+
+
+.header{
+  width: 20%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: large;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: darkgreen;
+}
+ 
+  .box{
+    display: none;
+    z-index: 1;
+    position: fixed;
+     top: 50%;
+    left: 50%;
+   transform: translate(-50%,-50%);
+
+    margin: 0 auto;
+    height: 300px;
+    width: 500px;
+    background-color: pink;
+    text-align: center;
+  }
+  .title{
+    width: 300px;
+    margin: 0 auto;
+    background-color: lightblue;
+  }
+  .content{
+    height: 100%;
+    display: block;
+    background-color: lightgreen;
+  }
+
+
+
+  .mask{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0,0, 0.05)
+  }
+
+
+
+  
+</style>
+
+
+
+<script>
+  let mask = document.querySelector('.mask')
+  let box = document.querySelector('.box')
+  let btn = document.querySelector(".header")
+  let title = document.querySelector('.title')
+
+  btn.addEventListener('click',show)
+  
+  box.addEventListener ('mousedown',drag)
+
+
+
+  function show() {
+        mask.style.display = 'block'
+        box.style.display = 'block'
+  }
+  
+
+
+
+
+function drag(e) {
+
+  // 鼠标在盒子 距离边界 的距离
+  let X= e.pageX - box.offsetLeft
+  let Y= e.pageY - box.offsetTop
+
+  document.addEventListener('mousemove',move)
+  
+  document.addEventListener('mouseup',function(){
+    document.removeEventListener("mousemove",move)
+  })
+  
+  
+  function move(e){
+    //鼠标在窗口移动的位置   减去鼠标在框内的位置
+     box.style.left = e.pageX - X + 'px' 
+     box.style.top = e.pageY - Y + 'px' 
+  }
+
+    
+   // console.log(box.offsetLeft,'boxX');  
+  // console.log(box.offsetTop,'boxY');  
+
+  // console.log(e.pageX,'鼠标距离窗口x');
+  // console.log(e.pageY,'鼠标距离窗口y');
+}
+
+</script>

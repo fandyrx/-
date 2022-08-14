@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>copy</title>
+</head>
+<body>
+  1.浅拷贝   基础类型数据没关系(栈内存) 都会新开一个内存空间
+            引用数据类型(obj,arr,function,data等)存储在堆空间的数据  
+            浅拷贝只是 栈空间复制了指向引用类型的指针
+            当引用数据改变时两个数据都会产生变化.
+            <br>       
+  2.理解为,浅拷贝只能复制第一层, 嵌套的引用数据只是复制了指向地址,内部依旧有关联
+  <br>   
+  3.深拷贝     堆内存开辟新的内存空间,指针不同,所以数据不互通
+  <br>   
+
+
+
+
+  <h3>Object.assign()这个方法是可以把任意的多个源对象的可枚举    
+    属性拷贝给目标对象，然后返回目标对象，它进行的是对象的浅拷贝，拷贝的是对 
+    象的引用，而不是对象本身，<br>  所以针对于这种有两层的数据结构就出  
+    出现只拷贝了第一层，第二层以下的对象依然拷贝不了，所以我们称Object.assign()为浅   
+    拷贝，只有在对象只有一层结构的时候才时候使用， <br>   
+  </h3>
+  <h3>Array.from() 方法从一个类似数组或可迭代对象创建一个新的，浅拷贝的数组实例</h3>
+
+
+  <div > 
+    <p>序列化的作用是存储和传输，在这个过程中就会开启新的内存空间就会产生和源对象不一样的空间从而实现深拷贝，实际开发中这个用法已经可以解决很多场景了，但是依然有很多弊端。
+
+      如果obj里面有时间对象，则JSON.stringify后再JSON.parse的结果，时间将只是字符串的形式。而不是时间对象；
+      如果obj里有RegExp、Error对象，则序列化的结果将只得到空对象；
+      如果obj里有函数，undefined，则序列化的结果会把函数或 undefined丢失；
+      如果obj里有NaN、Infinity和-Infinity，则序列化的结果会变成null
+      JSON.stringify()只能序列化对象的可枚举的自有属性，例如 如果obj中的对象是有构造函数生成的，  使用这个方法后会丢弃对象的constructor。
+      该方法不能拷贝function类型
+      
+      有点复杂
+   引用:
+      作者：_小九
+      链接：https://juejin.cn/post/6922269833237102606
+      来源：稀土掘金
+      著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+      </p>
+
+  </div>
+
+</body>
+</html>
+
+<script>
+  let arr= [1,2,3,[9,8,7],11,5]
+  let obj ={
+    name:'名字',
+    age:'年龄',
+    anotherObj:{
+      name:'内名字',
+      age:'内年龄',
+      imFunction(){
+        console.log(1);
+      }
+    }
+  }
+
+
+  //简易版
+  function deepClone (source){
+    //null数据特殊处理
+    if(source === null ){
+      return source
+    }
+    //校验拷贝数据为对象或数组
+    const target = Array.isArray(source) ? []: {}
+    for(const k in source) {
+      const val = source[k]
+      const valueType = typeof val
+      
+      //校验拷贝数据类型
+      if(valueType === 'function'){
+        //?                     
+        target[k] = new Function(`return ${val.toString()}`)()
+      }
+      else if (valueType ==='object'){
+        target[k] = deepClone(val)
+      }
+      else{
+        target[k] = val
+      }
+    }
+    return target
+
+  }
+
+
+
+  console.log(deepClone (obj),'deep');
+
+
+
+
+  console.log(arr,'原数组');
+  // console.log(newArr,'新数组');
+  console.log(obj,'原对象');
+  console.log(obj,'新对象');
+
+
+
+// for  in   索引,赋值  依旧浅拷贝,但是里面递归可以做成深拷贝
+//   let A = [1,2,3,[4,5]]
+//   let B = []
+// for (var i in A){
+//     B[i] = A[i]
+// }
+
+//   B[3] = 9
+// console.log(A,B)    
+/** 对比结果 */
+//[ 1, 2, 3, [ 4, 5 ] ]
+//[ 1, 2, 3, 9 ]
+
+
+
+
+function deepClone(target) {
+    let result;
+    if (typeof target === 'object') {
+        if (Array.isArray(target)) {
+            result = []
+            for (let i in target) {
+                result.push(deepClone(target[i]))
+            }
+        } else {
+            result = {}
+            for (let key in target) {
+                result[key] = target[key]
+            }
+        }
+    } else {
+        result = target;
+    }
+    return result;
+}
+
+let A = [1, 2, 3, { a: 1, b: 2 }]
+//往自身添加 一个元素(自身) 导致无限循环 ,深拷贝就出错
+A[4] = A
+console.log(A);
+// let B = deepClone(A)
+// console.log(A,B)
+/**  RangeError: Maximum call stack size exceeded */
+
+
+
+</script>
