@@ -29,6 +29,7 @@ var c = fun(0).fun(1); c.fun(2);  c.fun(3);//undefined;0; 1;1
 // var = fun(0); 闭包产生  n 即为闭包储存的值,a 接受到的函数 传入0, n 改变为0 
 // 后方a.fun(1);   闭包产生, n 为之前传入的0  但没有变量接受,变为垃圾对象, 闭包消失, n 依旧为之前的0
 // h5 webworker  分线程,防止主线程 函数递归性能较差,等待时间过长
+
 // 1.主线程 new Worker ('引入分线程执行的js')
 //   1.1 worker.postMessage(number)       //往分线程传递待处理数据
 //   1.2  worker.onMessage =function (event) {

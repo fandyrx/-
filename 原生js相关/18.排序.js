@@ -78,7 +78,7 @@ let sliceRes = deepArr.slice()
 //深拷贝 JSON.parse(JSON.stringify())      不能拷贝函数，undefined，symbol。
 
 deepArr[3].push('6666')
-console.log(result,'red');
+console.log(result,'res');
 console.log(sliceRes,'slice');
 
 

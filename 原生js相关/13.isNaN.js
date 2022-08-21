@@ -4,7 +4,8 @@ console.log(isNaN("NaN"));  //TRUE
 console.log(isNaN(0));  //FALSE
 console.log(isNaN(0/0));  //TRUE
 
-console.log("----");
+
+console.log("---- TRUE");
 console.log(Number.isNaN(NaN));
 console.log(Number.isNaN(Number.NaN));
 console.log(Number.isNaN(0/0));
@@ -14,7 +15,7 @@ console.log(Number.isNaN(0/0));
 
 
 
-console.log('----不会进行数据转换,先判断是否数字 ,下面全部为false');
+console.log('----不会进行数据转换,先判断是否数字,再判断是否NAN ,下面全部为false');
 console.log(Number.isNaN("NaN"));   
 console.log(Number.isNaN(undefined));
 console.log(Number.isNaN({}));
