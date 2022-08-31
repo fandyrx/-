@@ -45,6 +45,7 @@ arr2.sort(function(a,b){
     }  
     return 0;  
 });  
+
 for(var i=0;i<arr2.length;i++){  
  
     console.log(arr2[i].date + ", " + arr2[i].name + ", " + arr2[i].age);  
@@ -78,7 +79,8 @@ let sliceRes = deepArr.slice()
 //深拷贝 JSON.parse(JSON.stringify())      不能拷贝函数，undefined，symbol。
 
 deepArr[3].push('6666')
-console.log(result,'res');
-console.log(sliceRes,'slice');
+console.log(deepArr,'deppArr,原数组');
+console.log(result,'res,json深拷贝'); 
+console.log(sliceRes,'slice,浅拷贝');
 
 

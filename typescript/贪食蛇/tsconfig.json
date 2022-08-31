@@ -1,0 +1,24 @@
+{    
+  //指定那些TS文件需要被编译// src 目录下任意目录**,任意文件*
+  "include": [
+    "./src/**/*"
+  ],
+ 
+  // 编译ES版本,指定模块化标准,指定项目使用的库(一般不用设置)
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ES2015",
+    "lib":["dom","ES2015"],
+    //编译文件的输出位置
+    // "outDir": "./dist",
+    //合并所有代码到一个文件,是否编译js
+    // "outFile": "./dist/app.js",
+    // "allowJs": true,
+    //检查语法 checkJs,noEmit不生成编译文件,noEmitOnError错误不生成编译文件
+    //移除注释,若出错不编译成JS
+    "removeComments": true,
+    "noEmitOnError":true ,
+    // 严格模式语法检查
+    "strict": true
+  }
+}
