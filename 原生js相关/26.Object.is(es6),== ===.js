@@ -6,7 +6,7 @@ console.log(1 == '1');
 console.log(1 === true);
 console.log(1 === '1');
 console.log(NaN === NaN); //false
-console.log(+0=== -0);  //true  
+console.log(+0 === -0);  //true  
  
 //3.Object.is() 是否严格相等    处理了特殊情况 +0 -0 隐式转换, NaN
 console.log(Object.is(NaN,NaN));  

@@ -42,6 +42,7 @@
     <input type="color">
 
     <style> 
+    /* 折叠样式 */
       .collapsed {
         height: 40.8px;
         overflow: hidden;
@@ -57,10 +58,8 @@
     }
       .sdmenu{
         width: 180px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-       
+        /* margin: 0 auto; */
+      
         background-color:lightgrey;
       }
       .sdmenu div{
@@ -78,7 +77,7 @@
         font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
         line-height: 0;
         margin-right: 5px;
-        border: 6px solid transparent;
+        border: 6px solid transparent;     /* 三角形: 四方体,3方边框透明,一方有颜色,内容0*/
         border-top-color: #fff ;
         
       }

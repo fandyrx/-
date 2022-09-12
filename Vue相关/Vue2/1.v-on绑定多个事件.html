@@ -14,7 +14,11 @@
     1.正常绑定,一个事件,一个回调,不需要添加() 
      <xmp><h1 v-on:click="changeSpan">模板</h1></xmp>
     2. 不同事件,对应各自回调,对象方式写入
-    <xmp><h1 v-on="{click:dbClick,mousemove:MouseClick}">模板</h1></xmp>
+    <xmp>
+      <h1 v-on="{click:dbClick,mousemove:MouseClick}">
+            模板
+      </h1>
+    </xmp>
     3.同一事件,绑定多个回调,函数需要添加()  
      <xmp><h1 v-on:click="changeSpan(),test()">模板</h1></xmp>
   </div>
@@ -24,7 +28,8 @@
 
   <div id="root">
    <h1 v-on:click="changeSpan(),test()">点击模板</h1>
-   <span>span:{{a}}</span>
+   <span>changeSpan :{{a}}</span>
+   <span>test:{{b}}</span>
   </div>
 
 
@@ -33,7 +38,8 @@
       //el:'#app',
       data() {
         return{
-          a:1
+          a:1,
+          b:''
         }
       },
   
@@ -43,6 +49,7 @@
             console.log('changeSpan');
         },
         test(){
+          this.b += "改变了~"
           console.log("test");
         }
       },
