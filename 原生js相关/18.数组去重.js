@@ -36,11 +36,13 @@ let newArr = []
 //       newArr.push(arr[i]);
 //     }
 // }
-//5.filter 
+// 5.filter [1,2,3,1]
 // newArr = arr.filter(function(item,index,arr){
 //   return arr.indexOf(item) === index;
+
 // })
-//6.键值对  对象
+
+// 6.键值对  对象
 //  let obj = {}
 //  for(let i = 0;i <arr.length ; i++){
 //         if(! obj[arr[i]] ){
@@ -51,10 +53,11 @@ let newArr = []
 //           obj[arr[i]]++
 //         }
 //  }
-//  console.log(obj);
+
+
 
 //7.es6  set 唯一元素 数组
-   newArr = [...new Set(arr)]
+   // newArr = [...new Set(arr)]
 
 
 console.log(arr,'origin');

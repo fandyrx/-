@@ -3,11 +3,12 @@ console.log(typeof 2);               // number
 console.log(typeof true);            // boolean
 console.log(typeof 'str');           // string
 console.log(typeof []);              // object    
+console.log(typeof Symbol);          //function     //特例
 console.log(typeof function(){});    // function
 console.log(typeof {});              // object
 console.log(typeof undefined);       // undefined
 console.log(typeof null);            // object
-// 数组、对象、null都会被判断为object，其他判断都正确。
+// 数组、对象、null都会被判断为object，Symbol 为函数 ,其他判断都正确。
 
 // 2.instanceof  instanceof只能正确判断引用数据类型，而不能判断基本数据类型。
 console.log(2 instanceof Number);                    // false
@@ -30,12 +31,19 @@ console.log(({}).constructor === Object); // true
 // 4.Object.prototype.toString.call()
 var a = Object.prototype.toString;
  
-console.log(a.call(2));
-console.log(a.call(true));
-console.log(a.call('str'));
-console.log(a.call([]));
-console.log(a.call(function(){}));
-console.log(a.call({}));
-console.log(a.call(undefined));
-console.log(a.call(null));
+console.log(a.call(2)); // [object Number]
+console.log(a.call(true)); // [object Boolean]
+console.log(a.call('str')); // [object String]
+console.log(a.call([])); // [object Array]
+console.log(a.call(function(){})); // [object Function]
+console.log(a.call({})); // [object Object]
+console.log(a.call(undefined)); // [object Undefined]
+console.log(a.call(null)); // [object Null]
+
+
+
+
+
+
+
 

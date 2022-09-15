@@ -35,7 +35,11 @@
 <div class="pin3">112</div>
 
 
-
+<script mode>
+  var a= 0
+  var a = 0
+  console.log(a);
+</script>
  
  
 
@@ -59,7 +63,7 @@
     .box1 {
       width: 200px;
       height: 200px;
-      margin-bottom:100px ;
+      /* margin-bottom:100px ; */
       /* 不生效外边距塌陷 */
       background-color:pink;
     }
@@ -163,6 +167,7 @@
     /* center 浮动了,所以left 也浮动脱标,往左移动自身的外边距长度 */
     float: left;
     margin-left: -100%;
+
     width: 100px;
     height: 100px;
     background-color: tomato;
@@ -216,12 +221,11 @@
     height: 100px;
     width: 100px;
     margin:  0 auto;
+
     overflow: hidden;
     white-space:nowrap;
     text-overflow: ellipsis;
 
-
-  
   }
   .pin2{
     height: 100px;
@@ -241,6 +245,7 @@
     background-color: coral;
     float:left;
     transform: translate(-100%);
+
     -webkit-text-size-adjust:none;
     -webkit-transform:scale(2);
     

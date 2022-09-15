@@ -22,9 +22,10 @@ function Person (name){
     let proto = Object.getPrototypeOf(left)
   //获取  构造函数的 显式原型
     let prototype = right.prototype
-
-   
-      if(!proto){
+  //用于循环获取,直到return 退出
+   while(true) {
+    
+    if(!proto){
         //基础数据类型没有原型
         return  false
       }
@@ -34,6 +35,7 @@ function Person (name){
       //如果第一层没找到,继续在原型链上找
       proto = Object.getPrototypeOf(proto)
     
+   }
  }
 </script>
 

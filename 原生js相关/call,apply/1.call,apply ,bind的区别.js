@@ -30,3 +30,13 @@ call apply 的不同点
     3.2 call(this,arg1,arg2,arg3....)  call可以传递多个参数
     
    */
+  console.log("----")
+    let arr1 = [132]
+    let arr2 = [2,3,[4,5,6]]
+    
+
+    console.log([].concat.apply(arr1,arr2))   
+      //1.apply(this,args) 第二个参数为数组,使用时,会给前方函数调用函数以 (...args) 方式传递参数   
+    console.log(...arr2)
+    //2.上面代码,等价于下面,arr1调用concat(...arr2) ; concat 再次合并, 所以会把里面的数组[]拓展出来.
+    console.log([132].concat(...arr2))

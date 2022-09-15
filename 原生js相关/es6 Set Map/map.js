@@ -44,8 +44,14 @@
 // var merged = new Map([...first, ...second]);
 
 
-
 // 唯一性,Map,Set
+
+//symbol
 let yellow1 = Symbol.for("Yellow");
    // "Yellow"
+console.log(yellow1);
 console.log(Symbol.keyFor(yellow1));
+
+
+
+

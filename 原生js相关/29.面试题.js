@@ -34,8 +34,8 @@ const array = [ '中文','英文','2', 'b', '9','a','7','3','4','b','6', '4' ];
 //  console.log(handle(array))
 
 
-Array.prototype.reverse.call(array)
-console.log(array)
+// Array.prototype.reverse.call(array)
+// console.log(array)
 
 
   const ar2 = [1,6,8,2,0,6]
