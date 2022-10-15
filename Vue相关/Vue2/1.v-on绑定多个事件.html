@@ -29,8 +29,8 @@
   <div id="root">
    <h1 v-on:click="changeSpan(),test()">点击模板</h1>
    <span>changeSpan :{{a}}</span>
-   <span>test:{{b}}</span>
-
+   <span >test:{{b}}</span>
+    
   </div>
 
   <script>
@@ -42,6 +42,11 @@
           b:''
         }
       },
+      mounted(){
+        let span = document.getElementsByTagName(span)
+        let text = this.refs.text
+        console.log(span,text)
+      },
   
       methods:{
         changeSpan(){
@@ -52,15 +57,17 @@
           this.b += "改变了~"
           console.log("test");
         }
+
+
       },
+      // 渲染函数,将模板渲染到根元素
     // 1. render:  function (createElement) {
     //    return createElement('h1', "一些文字")
     //   }
     // 习惯的简写,  h = createElement   通常用于引入管理的 主组件APP, 通过render 函数渲染到页面
     //  render :(h) => h('h1', "一些文字"),
     
-    
-
+      
     }).$mount('#root')
 
 

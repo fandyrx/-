@@ -1,16 +1,30 @@
 // 1.==  当两边值不同时,类型转换再比较
-    //强制类型转换   
+//强制类型转换
 console.log(1 == true);
-console.log(1 == '1');
+console.log(1 == "1");
 //2. === : 不会强制类型转换   ,   等型等值
 console.log(1 === true);
-console.log(1 === '1');
+console.log(1 === "1");
 console.log(NaN === NaN); //false
-console.log(+0 === -0);  //true  
- 
-//3.Object.is() 是否严格相等    处理了特殊情况 +0 -0 隐式转换, NaN
-console.log(Object.is(NaN,NaN));  
-console.log(Object.is(+0,-0));
+console.log(+0 === -0); //true
 
-let obj = [1,2,3]
-console.log(Object.valueOf(obj),'e')
+//3.Object.is() 是否严格相等    处理了特殊情况 +0 -0 隐式转换, NaN
+console.log(Object.is(NaN, NaN));
+console.log(Object.is(+0, -0));
+
+let obj = [1, 2, 3];
+console.log(Object.valueOf(obj), "e");
+
+function getSomeThing() {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve("获取成功");
+		}, 3000);
+	});
+}
+
+async function test() {
+	let a = await getSomeThing();
+	console.log(a);
+}
+test(); // 3秒后输出：获取成功

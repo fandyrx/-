@@ -8,6 +8,7 @@
 </head>
 <body>
   <script>
+    //总结:this相关,windows let,const 声明的变量可以直接访问,不能通过this.xxx访问 和var 挂载方式不一样
     // 栗子:
 const c = 123;
 let money = 10;
@@ -21,17 +22,29 @@ let obj = {
       
     },
     b:()=>{
-      //箭头函数没有自己的this.所以会在定义的window身上找,但 money 用LET声明,块级作用域无法访问,所以undefined
+      console.log(money,"箭头函数查找,money往外层作用域(调用事件的对象)查找")
+      //箭头函数没有自己的this,所以this.xxx为undefined 
       console.log(this.money);
       console.log(this.s);
-    }
+    },
+  
+   
+   
+    
 }
 
-console.log(this.c,"c");
-console.log(this.money,"m");
+
+
+
+console.log(this.c,"this查找全局const定义的c");
+console.log(this.money,"this查找全局let定义的money");
+console.log("全局let定义的:",money)
 console.log(this,"this");
+console.log("--------")
 obj.a()  //obj调用了a  
-obj.b()  
+obj.b() 
+
+console.log("-----")
 
 
 

@@ -23,7 +23,7 @@ function fragment_compile(node) {
       const arr = result_regex[1].split('.');
       const value = arr.reduce((total,current)=>{
         total[current]
-      },vm.$data)
+      },vm.$data) 
       node.nodeValue = node.nodeValue.replace(pattern,value);
     };
    

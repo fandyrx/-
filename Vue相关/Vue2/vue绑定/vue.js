@@ -46,7 +46,7 @@ function  Observer(data_instance) {
 
 
 
-// HEML模板解析  编译函数
+// HTML模板解析  编译函数
 function Compile(element,vm) {
  
    vm.$el = document.querySelector(element);

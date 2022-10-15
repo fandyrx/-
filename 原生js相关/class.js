@@ -64,7 +64,7 @@ class Dog extends Animal {
 
 }
 
-//4.abstract  抽象类   ts语法?
+//4.abstract  抽象类   ts语法
 // 父类如果不希望用来创建实例,只用作继承可以加前缀
 abstract class Animal {
   constructor(name,age){
