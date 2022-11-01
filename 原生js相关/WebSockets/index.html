@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket测试</title>
+</head>
+<body>
+
+  <form >
+    <input type="text" >
+    <button>发送</button>
+  </form>
+  <ul></ul>
+
+<!-- 引入io 创建实例 -->
+<script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io()
+    const form = document.querySelector('form');
+    const input= document.querySelector('input');
+    const ul = document.querySelector('ul');
+
+
+    form.addEventListener('submit',e=>{
+     
+      e.preventDefault();
+      if(input.value){
+        socket.emit('chat message',input.value);
+      
+        input.value = ''
+      }
+
+    })
+
+
+    socket.on('chat message',msg=>{
+
+      console.log(msg)
+      const li = document.createElement('li')
+      li.textContent = msg
+      // li.innerHTML = msg
+     
+      ul.appendChild(li)
+    })
+  </script>
+
+
+   <!-- <script>
+     const ws = new WebSocket('ws://localhost:3000')
+
+     ws.addEventListener('open',()=>{
+      console.log('链接上服务器了,前端浏览器打印')
+      ws.send('前端传入信息')
+     })
+
+     ws.addEventListener('message',({data})=>{
+      console.log(data )
+     })
+   </script> -->
+</body>
+</html>

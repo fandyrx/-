@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CSS选择器~</title>
+	</head>
+	<body>
+		<span>This is not red.</span>
+		<p>Here is a paragraph.</p>
+		<code>Here is some code.</code>
+		<span>And here is a span.</span>
+
+		<form action="#">
+			<div class="name"><input type="email" /> <span>姓名</span></div>
+			<div class="phone"><input type="text" /> <span>电话</span></div>
+		</form>
+
+		<style>
+			p ~ span {
+				color: red;
+			}
+
+			/* 表单已验证，通用兄弟选择器 ~ 选择紧靠后方的元素  */
+			input:valid ~ span {
+				background-color: green;
+			}
+			input:invalid ~ span {
+				background-color: pink;
+			}
+		</style>
+	</body>
+</html>

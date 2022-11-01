@@ -26,13 +26,7 @@
 			<a href="javascript:void(0);" class="bottomBtn">清除所有进行</a>
 			<h2>已经完成 <span id="donecount">0</span></h2>
 
-			<ul id="donelist">
-				<li>
-					<input type="checkbox" />
-					<p>321</p>
-					<a href="#"></a>
-				</li>
-			</ul>
+			<ul id="donelist"></ul>
 		</section>
 
 		<script>
@@ -42,44 +36,55 @@
 			const doneBtn = document.querySelector(".remove");
 			const bottomBtn = document.querySelector(".bottomBtn");
 			const todoList = document.querySelector("#todolist");
+			const doneList = document.querySelector("#donelist");
 
-			
-     
-      let tasks = [];
-     
-      localStorage.getItem('todoList')? tasks.push(...JSON.parse(localStorage.getItem('todoList'))) :''
+			//1.存储事件列表
+			let tasks = [];
+			let dones = [];
+			//2.本地存储取出事件
+			localStorage.getItem("todoList") ? tasks.push(...JSON.parse(localStorage.getItem("todoList"))) : "";
+			localStorage.getItem("doneList") ? dones.push(...JSON.parse(localStorage.getItem("doneList"))) : "";
+			//3.渲染 并 开始监听 刷新初始化
+	
 			startApp();
-     
-     
-      
+
 			function startApp() {
-        
-
-				show(tasks);
+				render();
 				statListen();
-
 			}
 
-			function show(tasks) {
+			//传入数据 渲染 清空现有DOM, 重载DOM 
+			function render() {
 				todoList.innerHTML = "";
+				doneList.innerHTML = "";
+				show(tasks);
+				show(dones);
+			}
+
+			// 1. 生成li 
+			function show(tasks) {
 				for (const task of tasks) {
 					//1.生成 元素
 					let li = document.createElement("li");
 
 					li.innerHTML = ` <input type="checkbox">
-                     <p> ${task} </p>
+                     <p> ${task.value} </p>
                      <a href="javascript:void(0);"  class="remove"></a>`;
-					//2.插入
-					todoList.append(li);
-					//3.清空输入框
-					titleInput.value = "";
-				}
 
-        //存入本地存储
-        JSON.stringify(tasks)
-        localStorage.setItem('todoList', JSON.stringify(tasks))
+					
+					//2.根据done是否完成决定 插入队列
+					if (task.done) {
+
+						doneList.append(li);
+					} else {
+						todoList.append(li);
+					}
+				}
+				
+
 			}
 
+			// 事件开启监听
 			function statListen() {
 				//1.from 表单提交  需要包裹 写一个submit 按钮
 				// titleForm.addEventListener('submit',addTask)
@@ -87,6 +92,7 @@
 				titleInput.addEventListener("keydown", addTask);
 				//2.完成任务父节点绑定利用冒泡  --鼠标点击
 				todoList.addEventListener("click", toDone);
+				doneList.addEventListener("click", unDone);
 
 				//3.清除所有正在 任务 --鼠标点击
 				bottomBtn.addEventListener("click", clearAllTask);
@@ -95,43 +101,105 @@
 			}
 
 			// 事件回调
+			//1.顶部输入框input 添加任务 回车
 			function addTask(e) {
 				const taskInput = titleInput.value.trim();
-				if (e.keyCode === 13 ) {
-           taskInput !== '' ?  tasks.unshift(taskInput) :alert('请输入内容')
-           show(tasks)
-           
+				if (e.keyCode === 13) {
+					taskInput !== "" ? tasks.unshift({ value: taskInput, done: false }) : alert("请输入内容");
+				
+					localStorage.setItem("todoList", JSON.stringify(tasks));	
+						//清空输入框
+						titleInput.value = "";
+						render()
+						
 				}
+	
+				
 			}
 
+			//2.todo 列表事件  最右侧a标签
 			function toDone(e) {
-				//删除,后续改动成添加
 				if (e.target.classList.contains("remove")) {
+					//确保a元素被点击才触发
 					// e.target.parentNode.remove();
-          let index = tasks.indexOf ( e.target.parentNode.textContent.trim())
-            tasks.splice(index,1)
-            show(tasks)
-           
-            //删除todolist一个值 ,筛选的数组再覆盖存入即可 切记JSON格式
-          
-            localStorage.setItem('todoList', JSON.stringify(tasks))
+					//获取内容对比,返回所在索引
+					
+					let index = getIndex(tasks, e.target.parentNode);
+					const done = tasks.splice(index, 1);
+
+				
+
+					//修改todos原数组后,重新渲染 //截取的元素添加到Done已完成列表
+					addDone(done);
+					render()
+
+					//删除todolist一个值 ,筛选的数组再覆盖存入即可 切记JSON格式
+					localStorage.setItem("doneList", JSON.stringify(dones));
+					localStorage.setItem("todoList", JSON.stringify(tasks));
 				}
 			}
 
-			function clearAllTask() { 
-				// todoList.innerHTML = "";  dom操作
-        // Model 操作
-        tasks= []
-        show(tasks)
-        localStorage.removeItem('todoList')
 
+					//获取当前元素索引 工具函数
+					function getIndex(data, node) {
+				let index = data.indexOf(node.textContent.trim());
+				return index;
+			}
+			//添加已完成事件
+			function addDone(doneLi) {
+				console.log(doneLi,'addDone')
+				if (doneLi[0].done) {
+					tasks.unshift(doneLi[0]);
+					
+				} else {
+					let saveDone = Object.assign(doneLi[0], { done: true });
+
+					dones.push(saveDone);
+					show(dones);
+				}
+
+				//删除todolist一个值 ,筛选的数组再覆盖存入即可 切记JSON格式
+				localStorage.setItem("doneList", JSON.stringify(dones));
+				localStorage.setItem("todoList", JSON.stringify(tasks));
 			}
 
+			//已完成事件列表  a标签回调
+			function unDone(e) {
+				if (e.target.classList.contains("remove")) {
+					//确保a元素被点击才触发
+					console.log("undone");
+					let index = getIndex(dones, e.target.parentNode);
+
+					//截取当前点击元素
+					const done = dones.splice(index, 1);
+
+					addDone(done);
+					show(tasks);
+					show(dones);
+				}
+			}
+
+	
+
+			//清空所所有待完成
+			function clearAllTask() {
+				// todoList.innerHTML = "";  dom操作
+				// Model 操作
+				tasks = [];
+				render()
+				localStorage.removeItem("todoList");
+			}
+			//过滤待完成
 			function filterTask(e) {
 				if (e.keyCode === 13) {
-          let inputText = e.target.value.trim().toLowerCase();
-          let filteredTasks = tasks.filter(task =>   task.toLowerCase().trim().includes(inputText))
-          show(filteredTasks)
+					let inputText = e.target.value.trim().toLowerCase();
+					let filteredTasks = tasks.filter((task) => {
+			
+						return task.value.toLowerCase().trim().includes(inputText)
+
+					});
+					todoList.innerHTML = "";
+					show(filteredTasks);
 					// let inputText = e.target.value.trim().toLowerCase();
 
 					// let childNodes = [...todoList.children];
