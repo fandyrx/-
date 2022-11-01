@@ -1,82 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Set</title>
-</head>
-<body>
-    <input  />
-    <span id="text"></span>
-</body>
-<!-- 测试 -->
-<script>
-  let input = document.querySelector("input")
-  let text  = document.getElementById("text")
-  
-  input.addEventListener("input",getVal)
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Set</title>
+	</head>
+	<body>
+		<input />
+		<span id="text"></span>
+	</body>
+	<!-- 测试 -->
+	<script>
+		let input = document.querySelector("input");
+		let text = document.getElementById("text");
 
-  function getVal(e){
-  let history = e.target.value
-  text.innerText=history
-   
-  }
- 
-  let arr = [1,2,3,3,2,1]
-  let newArr = new Set(arr)
+		input.addEventListener("input", getVal);
 
+		function getVal(e) {
+			let history = e.target.value;
+			text.innerText = history;
+		}
 
-  console.log("原数组:",arr)
-  console.log("新数组:",newArr)
+		let arr = [1, 2, 3, 3, 2, 1];
+		let newArr = new Set(arr);
 
+		console.log("原数组:", arr);
+		console.log("新数组:", newArr);
+	</script>
 
-</script>
+	<!-- 作用 -->
+	<script>
+		// ----Set 对象作用-----
+		// 1.数组去重
 
+		var mySet = new Set([1, 2, 3, 4, 4]);
+		[...mySet]; // [1, 2, 3, 4]
+		// 2.并集
 
+		var a = new Set([1, 2, 3]);
+		var b = new Set([4, 3, 2]);
+		var union = new Set([...a, ...b]); // {1, 2, 3, 4}
+		// 3.交集
 
-<!-- 作用 -->
-<script>
-  
-// ----Set 对象作用-----
-// 1.数组去重
+		var a = new Set([1, 2, 3]);
+		var b = new Set([4, 3, 2]);
+		var intersect = new Set([...a].filter((x) => b.has(x))); // {2, 3}
+		// 4.差集
 
-var mySet = new Set([1, 2, 3, 4, 4]);
-[...mySet]; // [1, 2, 3, 4]
-// 2.并集
+		var a = new Set([1, 2, 3]);
+		var b = new Set([4, 3, 2]);
+		var difference = new Set([...a].filter((x) => !b.has(x))); // {1}
 
-var a = new Set([1, 2, 3]);
-var b = new Set([4, 3, 2]);
-var union = new Set([...a, ...b]); // {1, 2, 3, 4}
-// 3.交集
+		/* Set 中的特殊值
+		Set 对象存储的值总是唯一的，所以需要判断两个值是否恒等。有几个特殊值需要特殊对待：
 
-var a = new Set([1, 2, 3]);
-var b = new Set([4, 3, 2]);
-var intersect = new Set([...a].filter(x => b.has(x))); // {2, 3}
-// 4.差集
+		+0 与 -0 在存储判断唯一性的时候是恒等的，所以不重复；
+		undefined 与 undefined 是恒等的，所以不重复；
+		NaN 与 NaN 是不恒等的，但是在 Set 中只能存一个，不重复。 */
 
-var a = new Set([1, 2, 3]);
-var b = new Set([4, 3, 2]);
-var difference = new Set([...a].filter(x => !b.has(x))); // {1}
+		let msSet = new Set("HELLO");
+		let newArr1 = [...msSet];
+		// 注：Set 中 toString 方法是不能将 Set 转换成 String
+		console.log(msSet.toString());
+		console.log(newArr1.toString());
+		// 类型检测用
+		console.log(Object.prototype.toString.call(Symbol(1)));
 
+		//方法
+		console.log("---methods---");
+		console.log(msSet.add(100));
+		console.log(msSet.size);
+		console.log(msSet.delete(100));
+		console.log(msSet.has(100));
+		// msSet.clear(); //清空set
+		//可迭代
+		msSet.forEach((item, index, arr) => {
+			console.log(item, index, arr, "foreach");
+		});
 
-
-/* Set 中的特殊值
-Set 对象存储的值总是唯一的，所以需要判断两个值是否恒等。有几个特殊值需要特殊对待：
-
-+0 与 -0 在存储判断唯一性的时候是恒等的，所以不重复；
-undefined 与 undefined 是恒等的，所以不重复；
-NaN 与 NaN 是不恒等的，但是在 Set 中只能存一个，不重复。 */
-
-let msSet  = new Set('HELLO')
-let newArr1 = [...msSet]
-// 注：Set 中 toString 方法是不能将 Set 转换成 String
-console.log(msSet.toString());
-console.log(newArr1.toString());
-// 类型检测用
-console.log(Object.prototype.toString.call( Symbol(1)));
-
-
-
-</script>
+		for (const item of msSet) {
+			console.log(item, "forof");
+		}
+	</script>
 </html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<input type="button" value="重放" id="btn1" />
+		<input type="button" value="清空" id="btn2" />
+		<br />
+		<canvas id="cvs" class="canvas"></canvas>
+	</body>
+</html>
+
+<style>
+	.canvas {
+		border: 1px solid black;
+		cursor: crosshair;
+	}
+</style>
+
+<script>
+	class Draw {
+		constructor(selector, width, height) {
+			this.element = document.querySelector(selector);
+
+			this.canvas = this.element.getContext("2d");
+			this.element.width = width;
+			this.element.height = height;
+			this.timeId = null;
+			this.animateArr = []; //存放画面移动坐标
+		}
+
+		init() {
+			const { canvas: c, element: el } = this;
+			let isDrag = false;
+
+			//canvas 线条宽度,边缘转折模式,影子颜色,模糊度
+			c.lineWidth = 2;
+			c.lineJoin = "round";
+			c.shadowColor = "#000";
+			c.shadowBlur = 4;
+
+			//鼠标按下,标记开启
+			el.onmousedown = () => {
+				isDrag = true;
+				c.beginPath();
+			};
+			//鼠标移动,当前坐标在画布的坐标 : 鼠标距离页面X/Y距离 -  画布元素距离浏览器距离
+			el.onmousemove = (e) => {
+				if (isDrag) {
+					const x = e.pageX - el.offsetLeft;
+					const y = e.pageY - el.offsetTop;
+					c.lineTo(x, y); //链接坐标
+					c.stroke(); //绘制
+					this.animateArr.push({ x, y }); //保存坐标,用于复写
+				}
+			};
+			//鼠标抬起,标识关闭,
+			el.onmouseup = () => {
+				isDrag = false;
+				this.animateArr.push(-1); //代表这笔结束了,否则会重显会自动链接断点
+			};
+			el.onmouseout = () => {
+				el.onmouseup();
+			};
+		}
+
+		animateGo() {
+			const { canvas: c } = this;
+			this.clear();
+			c.beginPath();
+			const loop = (animate, i) => {
+				if (i < animate.length - 1) {
+					const arr = animate[i];
+					if (arr === -1) {
+						c.beginPath();
+					} else {
+						// console.log(arr["x"], arr["y"]);
+						// console.log(arr[0], arr[1]);
+						c.lineTo(arr["x"], arr["y"]);
+
+						c.stroke();
+					}
+					i++;
+					//10ms递归 继续绘制下一个点
+					this.timeId = setTimeout(() => {
+						loop(animate, i);
+					}, 10);
+				}
+			};
+			loop(this.animateArr, 0);
+		}
+		clear() {
+			const { canvas: c } = this;
+			const { width, height } = this.element;
+			c.clearRect(0, 0, width, height);
+		}
+	}
+
+	const g = new Draw("#cvs", 600, 500);
+
+	g.init();
+
+	document.getElementById("btn1").onclick = () => {
+		g.animateGo();
+	};
+	document.getElementById("btn2").onclick = () => {
+		g.clear();
+		g.animateArr = [];
+	};
+</script>

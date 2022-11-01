@@ -3,6 +3,7 @@ Create Table of Contents 查看,命令面板输入创建目录
   - [TodoList:](#todolist)
   - [表格 (冒号代表左对齐,居中,右对齐)](#表格-冒号代表左对齐居中右对齐)
   - [***](#)
+- [插入图片](#插入图片)
 
 
 # 一级标题
@@ -54,3 +55,39 @@ H~2~0
 ---
 ___
 下划线
+
+
+---
+# 插入图片
+https://blog.csdn.net/xapxxf/article/details/105133999
+```
+基础语法：
+![Alt text](图片链接 "optional title")
+```
+
+>1.插入本地图片，只需要在基础语法的括号中填入图片的位置路径即可，支持绝对路径和相对路径。 
+```
+![avatar](/home/picture/1.png)
+```
+>2.插入网络图片
+```
+![avatar](http://baidu.com/pic/doge.png)
+
+```
+将图片存在网络服务器csdn等上，非常依赖网络。
+>3.把图片存入markdown文件
+
+用base64转码工具把图片转成一段字符串，然后把字符串填到基础格式中链接的那个位置。
+
+基础用法
+```
+![avatar](data:image/png;base64,iVBORw0......)
+```
+这个时候会发现插入的这一长串字符串会把整个文章分割开，非常影响编写文章时的体验。如果能够把大段的base64字符串放在文章末尾，然后在文章中通过一个id来调用，文章就不会被分割的这么乱了。
+
+高级用法
+```
+![avatar][base64str]
+[base64str]:data:image/png;base64,iVBORw0......
+```
+
